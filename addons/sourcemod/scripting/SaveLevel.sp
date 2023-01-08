@@ -3,6 +3,7 @@
 #include <sourcemod>
 #include <sdktools>
 #include <outputinfo>
+#include <multicolors>
 
 #pragma newdecls required
 
@@ -10,7 +11,7 @@ StringMap g_PlayerLevels;
 KeyValues g_Config;
 KeyValues g_PropAltNames;
 
-#define PLUGIN_VERSION "2.0"
+#define PLUGIN_VERSION "2.2"
 public Plugin myinfo =
 {
 	name 			= "SaveLevel",
@@ -109,7 +110,7 @@ public void OnClientPostAdminCheck(int client)
 		}
 
 		if(Found)
-			PrintToChatAll("\x03[SaveLevel]\x01 \x04%N\x01 has been restored to: \x04%s", client, sNames);
+			CPrintToChatAll("{green}[SaveLevel] {olive}%N {default}has been restored to: {olive}%s", client, sNames);
 	}
 }
 
@@ -439,7 +440,7 @@ public Action Command_Level(int client, int args)
 	bool bIsML;
 
 	GetCmdArg(1, sTarget, sizeof(sTarget));
-	if((iTargetCount = ProcessTargetString(sTarget, client, iTargets, MAXPLAYERS, 0, sTargetName, sizeof(sTargetName), bIsML)) <= 0)
+	if((iTargetCount = ProcessTargetString(sTarget, client, iTargets, MAXPLAYERS, COMMAND_FILTER_CONNECTED | COMMAND_FILTER_NO_IMMUNITY, sTargetName, sizeof(sTargetName), bIsML)) <= 0)
 	{
 		ReplyToTargetError(client, iTargetCount);
 		return Plugin_Handled;
@@ -493,14 +494,18 @@ public Action Command_Level(int client, int args)
 			ReplyToCommand(client, "[SM] Failed setting level to %s on %L.", sLevel, iTargets[i]);
 			return Plugin_Handled;
 		}
-
-		LogAction(client, iTargets[i], "Set %L to %s", iTargets[i], sName);
 	}
 
 	if(sPrevNames[0])
-		ShowActivity2(client, "\x03[SaveLevel]\x01 ", "Set \x04%s\x01 from \x04%s\x01 to \x04%s\x01", sTargetName, sPrevNames, sName);
+	{
+		CShowActivity2(client, "{green}[SaveLevel]{olive} ", "{default}Set {olive}%s {default}from %s to {olive}%s", sTargetName, sPrevNames, sName);
+		LogAction(client, -1, "%L set %s from %s to %s", client, sTargetName, sPrevNames, sName);
+	}
 	else
-		ShowActivity2(client, "\x03[SaveLevel]\x01 ", "Set \x04%s\x01 to \x04%s\x01", sTargetName, sName);
+	{
+		CShowActivity2(client, "{green}[SaveLevel]{olive} ", "{default}Set {olive}%s {default}to {olive}%s", sTargetName, sName);
+		LogAction(client, iTargets[0], "%L set %s to %s", client, sTargetName, sName);
+	}
 
 	return Plugin_Handled;
 }
