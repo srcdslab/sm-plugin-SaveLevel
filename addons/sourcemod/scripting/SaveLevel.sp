@@ -4,6 +4,7 @@
 #include <sdktools>
 #include <outputinfo>
 #include <multicolors>
+#include <utilshelper.inc>
 
 #pragma newdecls required
 
@@ -11,7 +12,8 @@ StringMap g_PlayerLevels;
 KeyValues g_Config;
 KeyValues g_PropAltNames;
 
-#define PLUGIN_VERSION "2.2"
+#define PLUGIN_VERSION "2.3"
+#define PREFIX "{green}[SaveLevel]{default}"
 public Plugin myinfo =
 {
 	name 			= "SaveLevel",
@@ -21,6 +23,12 @@ public Plugin myinfo =
 	url 			= ""
 };
 
+public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
+{
+	RegPluginLibrary("SaveLevel");
+	return APLRes_Success;
+}
+
 public void OnPluginStart()
 {
 	LoadTranslations("common.phrases");
@@ -29,6 +37,7 @@ public void OnPluginStart()
 	g_PropAltNames.SetString("m_iName", "targetname");
 
 	RegAdminCmd("sm_level", Command_Level, ADMFLAG_GENERIC, "Set a players map level.");
+	RegAdminCmd("sm_savelevel_reload", Command_ReloadConfig, ADMFLAG_CONFIG, "Reload the SaveLevel Map Config File.");
 }
 
 public void OnPluginEnd()
@@ -54,9 +63,17 @@ public void OnMapStart()
 	BuildPath(Path_SM, sConfigFile, sizeof(sConfigFile), "configs/savelevel/%s.cfg", sMapName);
 	if(!FileExists(sConfigFile))
 	{
-		LogMessage("Could not find mapconfig: \"%s\"", sConfigFile);
-		return;
+		char sMapNameLowerCase[PLATFORM_MAX_PATH];
+		GetCurrentMap(sMapNameLowerCase, sizeof(sMapNameLowerCase));
+		StringToLowerCase(sMapNameLowerCase);
+		BuildPath(Path_SM, sConfigFile, sizeof(sConfigFile), "configs/savelevel/%s.cfg", sMapNameLowerCase);
+		if(!FileExists(sConfigFile)) // Second attempt with Map name as lowercase
+		{
+			LogMessage("Could not find mapconfig: \"%s\"", sMapName);
+			return;
+		}
 	}
+
 	LogMessage("Found mapconfig: \"%s\"", sConfigFile);
 
 	g_Config = new KeyValues("levels");
@@ -419,17 +436,24 @@ bool GetLevel(int client, char[] sTargets, int TargetsLen, char[] sNames = NULL_
 	return true;
 }
 
+public Action Command_ReloadConfig(int client, int args)
+{
+	OnMapStart();
+	CReplyToCommand(client, "%s Map config file has been reloaded.", PREFIX);
+	return Plugin_Handled;
+}
+
 public Action Command_Level(int client, int args)
 {
 	if(!g_Config)
 	{
-		ReplyToCommand(client, "[SM] The current map is not supported.");
+		CReplyToCommand(client, "%s The current map is not supported.", PREFIX);
 		return Plugin_Handled;
 	}
 
 	if(args < 2)
 	{
-		ReplyToCommand(client, "[SM] Usage: sm_level <target> <level>");
+		CReplyToCommand(client, "%s Usage: sm_level <target> <level>", PREFIX);
 		return Plugin_Handled;
 	}
 
@@ -452,7 +476,7 @@ public Action Command_Level(int client, int args)
 	int Level;
 	if(!StringToIntEx(sLevel, Level))
 	{
-		ReplyToCommand(client, "[SM] Level has to be a number.");
+		CReplyToCommand(client, "%s Level has to be a number.", PREFIX);
 		return Plugin_Handled;
 	}
 	IntToString(Level, sLevel, sizeof(sLevel));
@@ -460,14 +484,14 @@ public Action Command_Level(int client, int args)
 	g_Config.Rewind();
 	if(!g_Config.JumpToKey("0"))
 	{
-		ReplyToCommand(client, "[SM] Setting levels on the current map is not supported.");
+		CReplyToCommand(client, "%s Setting levels on the current map is not supported.", PREFIX);
 		return Plugin_Handled;
 	}
 	g_Config.GoBack();
 
 	if(Level && !g_Config.JumpToKey(sLevel))
 	{
-		ReplyToCommand(client, "[SM] Level %s could not be found.", sLevel);
+		CReplyToCommand(client, "%s Level {olive}%s {default}could not be found.", PREFIX, sLevel);
 		return Plugin_Handled;
 	}
 	g_Config.Rewind();
@@ -484,14 +508,14 @@ public Action Command_Level(int client, int args)
 		{
 			if(!RestoreLevel(iTargets[i], "0"))
 			{
-				ReplyToCommand(client, "[SM] Failed resetting level on %L.", iTargets[i]);
+				CReplyToCommand(client, "%s Failed resetting level on %L.", PREFIX, iTargets[i]);
 				return Plugin_Handled;
 			}
 		}
 
 		if(!RestoreLevel(iTargets[i], sLevel, sName, sizeof(sName)))
 		{
-			ReplyToCommand(client, "[SM] Failed setting level to %s on %L.", sLevel, iTargets[i]);
+			CReplyToCommand(client, "%s Failed setting level to {olive}%s {default}on {olive}%N.", PREFIX, sLevel, iTargets[i]);
 			return Plugin_Handled;
 		}
 	}
