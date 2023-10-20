@@ -12,14 +12,14 @@ StringMap g_PlayerLevels;
 KeyValues g_Config;
 KeyValues g_PropAltNames;
 
-#define PLUGIN_VERSION "2.3"
 #define PREFIX "{green}[SaveLevel]{default}"
+
 public Plugin myinfo =
 {
 	name 			= "SaveLevel",
 	author 			= "BotoX",
-	description 	= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= PLUGIN_VERSION,
+	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
+	version 		= "2.4",
 	url 			= ""
 };
 
@@ -36,6 +36,7 @@ public void OnPluginStart()
 	g_PropAltNames = new KeyValues("PropAltNames");
 	g_PropAltNames.SetString("m_iName", "targetname");
 
+	RegServerCmd("sm_clearlevelcache", Command_ClearCache);
 	RegAdminCmd("sm_level", Command_Level, ADMFLAG_GENERIC, "Set a players map level.");
 	RegAdminCmd("sm_savelevel_reload", Command_ReloadConfig, ADMFLAG_CONFIG, "Reload the SaveLevel Map Config File.");
 }
@@ -434,6 +435,16 @@ bool GetLevel(int client, char[] sTargets, int TargetsLen, char[] sNames = NULL_
 	if(!Found)
 		return false;
 	return true;
+}
+
+public Action Command_ClearCache(int args)
+{
+	if(!g_Config || !g_PlayerLevels)
+		return Plugin_Handled;
+
+	g_PlayerLevels.Clear();
+
+	return Plugin_Handled;
 }
 
 public Action Command_ReloadConfig(int client, int args)
