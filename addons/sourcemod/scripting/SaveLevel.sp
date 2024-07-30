@@ -19,7 +19,7 @@ public Plugin myinfo =
 	name 			= "SaveLevel",
 	author 			= "BotoX",
 	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= "2.4.1",
+	version 		= "2.4.2",
 	url 			= ""
 };
 
@@ -102,7 +102,8 @@ public void OnClientPostAdminCheck(int client)
 		return;
 
 	char sSteamID[32];
-	GetClientAuthId(client, AuthId_Steam3, sSteamID, sizeof(sSteamID));
+	if (!GetClientAuthId(client, AuthId_Steam3, sSteamID, sizeof(sSteamID)))
+		return;
 
 	static char sTargets[128];
 	if(g_PlayerLevels.GetString(sSteamID, sTargets, sizeof(sTargets)))
@@ -137,11 +138,13 @@ public void OnClientDisconnect(int client)
 	if(!g_Config || !g_PlayerLevels || !IsClientInGame(client))
 		return;
 
+	char sSteamID[32];
+	if (!GetClientAuthId(client, AuthId_Steam3, sSteamID, sizeof(sSteamID)))
+		return;
+
 	char sTargets[128];
 	if(GetLevel(client, sTargets, sizeof(sTargets)))
 	{
-		char sSteamID[32];
-		GetClientAuthId(client, AuthId_Steam3, sSteamID, sizeof(sSteamID));
 		g_PlayerLevels.SetString(sSteamID, sTargets, true);
 	}
 }
