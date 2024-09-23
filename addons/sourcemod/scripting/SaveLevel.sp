@@ -19,7 +19,7 @@ public Plugin myinfo =
 	name 			= "SaveLevel",
 	author 			= "BotoX",
 	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= "2.4.2",
+	version 		= "2.4.3",
 	url 			= ""
 };
 
@@ -224,6 +224,9 @@ bool RestoreLevel(int client, const char[] sTarget, char[] sName = NULL_STRING, 
 		}
 		else
 		{
+			if (client == -1)
+				return false;
+
 			PropFieldType Type;
 			int NumBits;
 			int Offset = FindDataMapInfo(client, sKey, Type, NumBits);
