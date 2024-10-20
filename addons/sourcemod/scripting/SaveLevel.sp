@@ -151,7 +151,7 @@ public void OnClientDisconnect(int client)
 
 bool RestoreLevel(int client, const char[] sTarget, char[] sName = NULL_STRING, int NameLen = 0)
 {
-	if (client == -1)
+	if (!IsValidEntity(client) || !IsValidClient(client, false, false, false))
 		return false;
 
 	g_Config.Rewind();
@@ -224,9 +224,6 @@ bool RestoreLevel(int client, const char[] sTarget, char[] sName = NULL_STRING, 
 		}
 		else
 		{
-			if (client == -1)
-				return false;
-
 			PropFieldType Type;
 			int NumBits;
 			int Offset = FindDataMapInfo(client, sKey, Type, NumBits);
