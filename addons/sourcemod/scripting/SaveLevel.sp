@@ -19,7 +19,7 @@ public Plugin myinfo =
 	name 			= "SaveLevel",
 	author 			= "BotoX",
 	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= "2.4.2",
+	version 		= "2.4.3",
 	url 			= ""
 };
 
@@ -151,7 +151,7 @@ public void OnClientDisconnect(int client)
 
 bool RestoreLevel(int client, const char[] sTarget, char[] sName = NULL_STRING, int NameLen = 0)
 {
-	if (client == -1)
+	if (!IsValidEntity(client) || !IsValidClient(client, false, false, false))
 		return false;
 
 	g_Config.Rewind();
