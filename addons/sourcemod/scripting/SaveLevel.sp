@@ -19,7 +19,7 @@ public Plugin myinfo =
 	name 			= "SaveLevel",
 	author 			= "BotoX",
 	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= "2.4.3",
+	version 		= "2.4.4",
 	url 			= ""
 };
 
