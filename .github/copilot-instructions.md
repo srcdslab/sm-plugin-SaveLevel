@@ -13,9 +13,9 @@ This repository contains **SaveLevel**, a SourcePawn plugin for SourceMod that s
 ## Technical Environment
 
 - **Language**: SourcePawn
-- **Platform**: SourceMod 1.11.0+ (configured in sourceknight.yaml)
-- **Build System**: SourceKnight (modern SourceMod build tool)
-- **Compiler**: SourcePawn compiler (spcomp) via SourceKnight
+- **Platform**: SourceMod 1.12.x
+- **Build System**: Native GitHub Actions (rumblefrog/setup-sp)
+- **Compiler**: SourcePawn compiler (spcomp) via GitHub Actions
 - **CI/CD**: GitHub Actions workflow (`.github/workflows/ci.yml`)
 
 ## Dependencies
@@ -49,8 +49,6 @@ addons/sourcemod/
 .github/
 ├── workflows/ci.yml              # Build and release automation
 └── dependabot.yml               # Dependency management
-
-sourceknight.yaml                 # Build configuration
 ```
 
 ## Code Architecture
@@ -117,20 +115,24 @@ sourceknight.yaml                 # Build configuration
 
 ### Building the Plugin
 
-**Using SourceKnight (Recommended):**
-```bash
-# Install SourceKnight if not already installed
-npm install -g sourceknight
+**Using GitHub Actions (Recommended):**
+The plugin is built automatically by `.github/workflows/ci.yml` on every push, pull
+request, or manual workflow dispatch. It sets up the SourcePawn compiler via
+`rumblefrog/setup-sp` (SourceMod 1.12.x), clones the git dependencies
+(MultiColors, OutputInfo, UtilsHelper) into `addons/sourcemod/scripting/include`,
+and runs `spcomp` against `SaveLevel.sp`.
 
-# Build the plugin
-sourceknight build
+**Building locally:** install `spcomp` matching SourceMod 1.12.x, place the
+dependency includes under `addons/sourcemod/scripting/include`, then run:
+```bash
+spcomp -i include -o ../plugins/SaveLevel.smx SaveLevel.sp
 ```
 
 **Output:** Compiled plugin will be in `addons/sourcemod/plugins/SaveLevel.smx`
 
 ### CI/CD Pipeline
 - **Trigger**: Push, PR, or manual workflow dispatch
-- **Build**: Automated via GitHub Actions using SourceKnight
+- **Build**: Native GitHub Actions job using `rumblefrog/setup-sp`
 - **Package**: Creates distributable tar.gz with plugin + configs
 - **Release**: Auto-releases on tags and main/master branch pushes
 
@@ -258,15 +260,14 @@ while((Index = FindOutput(client, sValue, 0)) != -1)
 
 ## Files You Should NOT Modify
 - `.github/workflows/ci.yml` (unless changing build process)
-- `sourceknight.yaml` dependencies (unless upgrading versions)
 - Existing map configuration files (unless fixing bugs)
 
 ## Getting Started Checklist
 
 When working on this repository:
 
-1. **Setup**: Ensure SourceKnight is available for building
-2. **Build**: Test compilation with `sourceknight build`
+1. **Setup**: Rely on the GitHub Actions workflow to build and validate changes
+2. **Build**: Open a PR/push and let CI compile the plugin, or build locally with `spcomp`
 3. **Test Environment**: Set up development SourceMod server
 4. **Map Configs**: Review existing configurations to understand patterns
 5. **Code Review**: Focus on memory management and entity manipulation
