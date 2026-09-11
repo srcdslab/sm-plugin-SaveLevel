@@ -11,7 +11,6 @@
 StringMap g_PlayerLevels;
 KeyValues g_Config;
 KeyValues g_PropAltNames;
-bool g_bLateLoad;
 
 #define PREFIX "{green}[SaveLevel]{default}"
 
@@ -27,7 +26,6 @@ public Plugin myinfo =
 public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max)
 {
 	RegPluginLibrary("SaveLevel");
-	g_bLateLoad = late;
 	return APLRes_Success;
 }
 
@@ -41,13 +39,6 @@ public void OnPluginStart()
 	RegServerCmd("sm_clearlevelcache", Command_ClearCache);
 	RegAdminCmd("sm_level", Command_Level, ADMFLAG_GENERIC, "Set a players map level.");
 	RegAdminCmd("sm_savelevel_reload", Command_ReloadConfig, ADMFLAG_CONFIG, "Reload the SaveLevel Map Config File.");
-
-	// Support `sm plugins reload` / late loads: OnMapStart() won't fire until the next map otherwise.
-	if(g_bLateLoad)
-	{
-		g_bLateLoad = false;
-		OnMapStart();
-	}
 }
 
 public void OnPluginEnd()
