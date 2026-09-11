@@ -60,10 +60,13 @@ public void OnMapStart()
 	LoadMapConfig();
 }
 
-bool LoadMapConfig()
+// `keepOnFailure` controls what happens to the currently active g_Config when loading fails:
+// - OnMapStart() passes false: the previous map's config is meaningless on a new map, so it
+//   must be cleared even if the new map has no config of its own.
+// - Command_ReloadConfig() passes true: a missing/malformed file on `sm_savelevel_reload`
+//   should leave the last known-good config (and level saving/restoring) running as-is.
+bool LoadMapConfig(bool keepOnFailure = false)
 {
-	delete g_Config;
-
 	char sMapName[PLATFORM_MAX_PATH];
 	GetCurrentMap(sMapName, sizeof(sMapName));
 
@@ -78,28 +81,38 @@ bool LoadMapConfig()
 		if(!FileExists(sConfigFile)) // Second attempt with Map name as lowercase
 		{
 			LogMessage("Could not find mapconfig: \"%s\"", sMapName);
+			if(!keepOnFailure)
+				delete g_Config;
 			return false;
 		}
 	}
 
 	LogMessage("Found mapconfig: \"%s\"", sConfigFile);
 
-	g_Config = new KeyValues("levels");
-	if(!g_Config.ImportFromFile(sConfigFile))
+	// Load into a temporary KeyValues and only swap it into g_Config once it has been fully
+	// validated, so a failed reload never leaves g_Config half-updated or unset.
+	KeyValues Config = new KeyValues("levels");
+	if(!Config.ImportFromFile(sConfigFile))
 	{
-		delete g_Config;
+		delete Config;
 		LogMessage("ImportFromFile() failed!");
+		if(!keepOnFailure)
+			delete g_Config;
 		return false;
 	}
-	g_Config.Rewind();
+	Config.Rewind();
 
-	if(!g_Config.GotoFirstSubKey())
+	if(!Config.GotoFirstSubKey())
 	{
-		delete g_Config;
+		delete Config;
 		LogMessage("GotoFirstSubKey() failed!");
+		if(!keepOnFailure)
+			delete g_Config;
 		return false;
 	}
 
+	delete g_Config;
+	g_Config = Config;
 	return true;
 }
 
@@ -470,10 +483,10 @@ public Action Command_ClearCache(int args)
 
 public Action Command_ReloadConfig(int client, int args)
 {
-	if(LoadMapConfig())
+	if(LoadMapConfig(true))
 		CReplyToCommand(client, "%s Map config file has been reloaded.", PREFIX);
 	else
-		CReplyToCommand(client, "%s No valid map config found for the current map (check the server logs).", PREFIX);
+		CReplyToCommand(client, "%s Failed to reload: no valid map config found for the current map (check the server logs). The active configuration is unchanged.", PREFIX);
 
 	return Plugin_Handled;
 }
