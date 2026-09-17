@@ -118,7 +118,7 @@ bool LoadMapConfig(bool keepOnFailure = false)
 
 public void OnClientPostAdminCheck(int client)
 {
-	if(!g_Config)
+	if(!g_Config || !g_PlayerLevels)
 		return;
 
 	char sSteamID[32];
