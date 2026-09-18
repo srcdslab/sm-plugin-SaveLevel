@@ -52,19 +52,12 @@ public void OnPluginEnd()
 
 public void OnMapStart()
 {
-	// A new map means the cached levels no longer map to anything, so start fresh here.
-	// Config (re)loading lives in LoadMapConfig() so `sm_savelevel_reload` can keep the cache.
 	delete g_PlayerLevels;
 	g_PlayerLevels = new StringMap();
 
 	LoadMapConfig();
 }
 
-// `keepOnFailure` controls what happens to the currently active g_Config when loading fails:
-// - OnMapStart() passes false: the previous map's config is meaningless on a new map, so it
-//   must be cleared even if the new map has no config of its own.
-// - Command_ReloadConfig() passes true: a missing/malformed file on `sm_savelevel_reload`
-//   should leave the last known-good config (and level saving/restoring) running as-is.
 bool LoadMapConfig(bool keepOnFailure = false)
 {
 	char sMapName[PLATFORM_MAX_PATH];
@@ -89,8 +82,6 @@ bool LoadMapConfig(bool keepOnFailure = false)
 
 	LogMessage("Found mapconfig: \"%s\"", sConfigFile);
 
-	// Load into a temporary KeyValues and only swap it into g_Config once it has been fully
-	// validated, so a failed reload never leaves g_Config half-updated or unset.
 	KeyValues Config = new KeyValues("levels");
 	if(!Config.ImportFromFile(sConfigFile))
 	{
