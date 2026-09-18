@@ -19,7 +19,7 @@ public Plugin myinfo =
 	name 			= "SaveLevel",
 	author 			= "BotoX",
 	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= "2.4.4",
+	version 		= "2.4.5",
 	url 			= ""
 };
 
@@ -52,11 +52,14 @@ public void OnPluginEnd()
 
 public void OnMapStart()
 {
-	if(g_Config)
-		delete g_Config;
-	if(g_PlayerLevels)
-		delete g_PlayerLevels;
+	delete g_PlayerLevels;
+	g_PlayerLevels = new StringMap();
 
+	LoadMapConfig();
+}
+
+bool LoadMapConfig(bool keepOnFailure = false)
+{
 	char sMapName[PLATFORM_MAX_PATH];
 	GetCurrentMap(sMapName, sizeof(sMapName));
 
@@ -71,34 +74,42 @@ public void OnMapStart()
 		if(!FileExists(sConfigFile)) // Second attempt with Map name as lowercase
 		{
 			LogMessage("Could not find mapconfig: \"%s\"", sMapName);
-			return;
+			if(!keepOnFailure)
+				delete g_Config;
+			return false;
 		}
 	}
 
 	LogMessage("Found mapconfig: \"%s\"", sConfigFile);
 
-	g_Config = new KeyValues("levels");
-	if(!g_Config.ImportFromFile(sConfigFile))
+	KeyValues Config = new KeyValues("levels");
+	if(!Config.ImportFromFile(sConfigFile))
 	{
-		delete g_Config;
+		delete Config;
 		LogMessage("ImportFromFile() failed!");
-		return;
+		if(!keepOnFailure)
+			delete g_Config;
+		return false;
 	}
-	g_Config.Rewind();
+	Config.Rewind();
 
-	if(!g_Config.GotoFirstSubKey())
+	if(!Config.GotoFirstSubKey())
 	{
-		delete g_Config;
+		delete Config;
 		LogMessage("GotoFirstSubKey() failed!");
-		return;
+		if(!keepOnFailure)
+			delete g_Config;
+		return false;
 	}
 
-	g_PlayerLevels = new StringMap();
+	delete g_Config;
+	g_Config = Config;
+	return true;
 }
 
 public void OnClientPostAdminCheck(int client)
 {
-	if(!g_Config)
+	if(!g_Config || !g_PlayerLevels)
 		return;
 
 	char sSteamID[32];
@@ -205,17 +216,20 @@ bool RestoreLevel(int client, const char[] sTarget, char[] sName = NULL_STRING, 
 
 				continue;
 			}
+			// FindCharInString() returns an offset relative to sValue[Target], make it absolute.
+			Input += Target;
 			sValue[Input] = 0; Input++;
 
 			// Input (e.g. add)
-			int Parameter = Input + FindCharInString(sValue[Input], ',');
-			if(Input == -1)
+			int Parameter = FindCharInString(sValue[Input], ',');
+			if(Parameter == -1)
 			{
 				while((Index = FindOutput(client, sValue, 0, sValue[Target], sValue[Input])) != -1)
 					DeleteOutput(client, sValue, Index);
 
 				continue;
 			}
+			Parameter += Input;
 			sValue[Parameter] = 0; Parameter++;
 
 			// Parameter (e.g. 1)
@@ -368,9 +382,14 @@ bool GetLevel(int client, char[] sTargets, int TargetsLen, char[] sNames = NULL_
 						int Parameter;
 
 						Input = FindCharInString(sValue[Target], ',');
+						if(Input == -1) // Malformed "<target>,<add|subtract>,<value>" entry, skip it.
+							continue;
 						sValue[Input] = 0; Input++;
 
-						Parameter = Input + FindCharInString(sValue[Input], ',');
+						int ParameterOffset = FindCharInString(sValue[Input], ',');
+						if(ParameterOffset == -1)
+							continue;
+						Parameter = Input + ParameterOffset;
 						sValue[Parameter] = 0; Parameter++;
 
 						int Value = 0;
@@ -455,8 +474,11 @@ public Action Command_ClearCache(int args)
 
 public Action Command_ReloadConfig(int client, int args)
 {
-	OnMapStart();
-	CReplyToCommand(client, "%s Map config file has been reloaded.", PREFIX);
+	if(LoadMapConfig(true))
+		CReplyToCommand(client, "%s Map config file has been reloaded.", PREFIX);
+	else
+		CReplyToCommand(client, "%s Failed to reload: no valid map config found for the current map (check the server logs). The active configuration is unchanged.", PREFIX);
+
 	return Plugin_Handled;
 }
 
