@@ -19,7 +19,7 @@ public Plugin myinfo =
 	name 			= "SaveLevel",
 	author 			= "BotoX",
 	description 		= "Saves players level on maps when they disconnect and restore them on connect.",
-	version 		= "2.4.5",
+	version 		= "2.4.6",
 	url 			= ""
 };
 
@@ -32,6 +32,7 @@ public APLRes AskPluginLoad2(Handle myself, bool late, char[] error, int err_max
 public void OnPluginStart()
 {
 	LoadTranslations("common.phrases");
+	LoadTranslations("SaveLevel.phrases");
 
 	g_PropAltNames = new KeyValues("PropAltNames");
 	g_PropAltNames.SetString("m_iName", "targetname");
@@ -140,7 +141,7 @@ public void OnClientPostAdminCheck(int client)
 		}
 
 		if(Found)
-			CPrintToChatAll("{green}[SaveLevel] {olive}%N {default}has been restored to: {olive}%s", client, sNames);
+			CPrintToChatAll("{green}[SaveLevel] %t", "Level Restored", client, sNames);
 	}
 }
 
@@ -475,9 +476,9 @@ public Action Command_ClearCache(int args)
 public Action Command_ReloadConfig(int client, int args)
 {
 	if(LoadMapConfig(true))
-		CReplyToCommand(client, "%s Map config file has been reloaded.", PREFIX);
+		CReplyToCommand(client, "%s %t", PREFIX, "Config Reloaded");
 	else
-		CReplyToCommand(client, "%s Failed to reload: no valid map config found for the current map (check the server logs). The active configuration is unchanged.", PREFIX);
+		CReplyToCommand(client, "%s %t", PREFIX, "Config Reload Failed");
 
 	return Plugin_Handled;
 }
@@ -486,13 +487,13 @@ public Action Command_Level(int client, int args)
 {
 	if(!g_Config)
 	{
-		CReplyToCommand(client, "%s The current map is not supported.", PREFIX);
+		CReplyToCommand(client, "%s %t", PREFIX, "Map Not Supported");
 		return Plugin_Handled;
 	}
 
 	if(args < 2)
 	{
-		CReplyToCommand(client, "%s Usage: sm_level <target> <level>", PREFIX);
+		CReplyToCommand(client, "%s %t", PREFIX, "Level Usage");
 		return Plugin_Handled;
 	}
 
@@ -515,7 +516,7 @@ public Action Command_Level(int client, int args)
 	int Level;
 	if(!StringToIntEx(sLevel, Level))
 	{
-		CReplyToCommand(client, "%s Level has to be a number.", PREFIX);
+		CReplyToCommand(client, "%s %t", PREFIX, "Level Not A Number");
 		return Plugin_Handled;
 	}
 	IntToString(Level, sLevel, sizeof(sLevel));
@@ -523,14 +524,14 @@ public Action Command_Level(int client, int args)
 	g_Config.Rewind();
 	if(!g_Config.JumpToKey("0"))
 	{
-		CReplyToCommand(client, "%s Setting levels on the current map is not supported.", PREFIX);
+		CReplyToCommand(client, "%s %t", PREFIX, "Setting Levels Not Supported");
 		return Plugin_Handled;
 	}
 	g_Config.GoBack();
 
 	if(Level && !g_Config.JumpToKey(sLevel))
 	{
-		CReplyToCommand(client, "%s Level {olive}%s {default}could not be found.", PREFIX, sLevel);
+		CReplyToCommand(client, "%s %t", PREFIX, "Level Not Found", sLevel);
 		return Plugin_Handled;
 	}
 	g_Config.Rewind();
@@ -547,26 +548,26 @@ public Action Command_Level(int client, int args)
 		{
 			if(!RestoreLevel(iTargets[i], "0"))
 			{
-				CReplyToCommand(client, "%s Failed resetting level on %L.", PREFIX, iTargets[i]);
+				CReplyToCommand(client, "%s %t", PREFIX, "Reset Level Failed", iTargets[i]);
 				return Plugin_Handled;
 			}
 		}
 
 		if(!RestoreLevel(iTargets[i], sLevel, sName, sizeof(sName)))
 		{
-			CReplyToCommand(client, "%s Failed setting level to {olive}%s {default}on {olive}%N.", PREFIX, sLevel, iTargets[i]);
+			CReplyToCommand(client, "%s %t", PREFIX, "Set Level Failed", sLevel, iTargets[i]);
 			return Plugin_Handled;
 		}
 	}
 
 	if(sPrevNames[0])
 	{
-		CShowActivity2(client, "{green}[SaveLevel]{olive} ", "{default}Set {olive}%s {default}from %s to {olive}%s", sTargetName, sPrevNames, sName);
+		CShowActivity2(client, "{green}[SaveLevel]{olive} ", "%t", "Level Set From", sTargetName, sPrevNames, sName);
 		LogAction(client, -1, "%L set %s from %s to %s", client, sTargetName, sPrevNames, sName);
 	}
 	else
 	{
-		CShowActivity2(client, "{green}[SaveLevel]{olive} ", "{default}Set {olive}%s {default}to {olive}%s", sTargetName, sName);
+		CShowActivity2(client, "{green}[SaveLevel]{olive} ", "%t", "Level Set", sTargetName, sName);
 		LogAction(client, iTargets[0], "%L set %s to %s", client, sTargetName, sName);
 	}
 

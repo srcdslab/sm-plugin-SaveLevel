@@ -1,0 +1,129 @@
+"Phrases"
+{
+	"Level Restored"
+	{
+		"#format"	"{1:N},{2:s}"
+		"en"		"{olive}{1} {default}has been restored to: {olive}{2}"
+		"fr"		"{olive}{1} {default}a été restauré à : {olive}{2}"
+		"ru"		"{default}Игроку {olive}{1} {default}восстановлен уровень: {olive}{2}"
+		"es"		"{olive}{1} {default}ha sido restaurado a: {olive}{2}"
+		"de"		"{olive}{1} {default}wurde wiederhergestellt auf: {olive}{2}"
+		"pt"		"{olive}{1} {default}foi restaurado para: {olive}{2}"
+		"chi"		"{olive}{1} {default}已恢复至：{olive}{2}"
+	}
+	"Config Reloaded"
+	{
+		"en"		"Map config file has been reloaded."
+		"fr"		"Le fichier de configuration de la map a été rechargé."
+		"ru"		"Файл конфигурации карты перезагружен."
+		"es"		"El archivo de configuración del mapa ha sido recargado."
+		"de"		"Die Konfigurationsdatei der Map wurde neu geladen."
+		"pt"		"O arquivo de configuração do mapa foi recarregado."
+		"chi"		"地图配置文件已重新加载。"
+	}
+	"Config Reload Failed"
+	{
+		"en"		"Failed to reload: no valid map config found for the current map (check the server logs). The active configuration is unchanged."
+		"fr"		"Échec du rechargement : aucune config valide pour la map actuelle (voir les logs du serveur). La configuration active est inchangée."
+		"ru"		"Ошибка перезагрузки: нет рабочего конфига для этой карты (см. логи сервера). Текущий конфиг не изменён."
+		"es"		"Error al recargar: no hay una configuración válida para el mapa actual (revisa los logs del servidor). La configuración activa no cambia."
+		"de"		"Neuladen fehlgeschlagen: keine gültige Konfiguration für die aktuelle Map (siehe Server-Logs). Die aktive Konfiguration bleibt unverändert."
+		"pt"		"Falha ao recarregar: nenhuma configuração válida para o mapa atual (veja os logs do servidor). A configuração ativa não foi alterada."
+		"chi"		"重新加载失败：当前地图没有有效的配置（请查看服务器日志）。当前配置保持不变。"
+	}
+	"Map Not Supported"
+	{
+		"en"		"The current map is not supported."
+		"fr"		"La map actuelle n'est pas prise en charge."
+		"ru"		"Текущая карта не поддерживается."
+		"es"		"El mapa actual no es compatible."
+		"de"		"Die aktuelle Map wird nicht unterstützt."
+		"pt"		"O mapa atual não é suportado."
+		"chi"		"当前地图不受支持。"
+	}
+	"Level Usage"
+	{
+		"en"		"Usage: sm_level <target> <level>"
+		"fr"		"Utilisation : sm_level <target> <level>"
+		"ru"		"Использование: sm_level <target> <level>"
+		"es"		"Uso: sm_level <target> <level>"
+		"de"		"Verwendung: sm_level <target> <level>"
+		"pt"		"Uso: sm_level <target> <level>"
+		"chi"		"用法：sm_level <target> <level>"
+	}
+	"Level Not A Number"
+	{
+		"en"		"Level has to be a number."
+		"fr"		"Le niveau doit être un nombre."
+		"ru"		"Уровень должен быть числом."
+		"es"		"El nivel debe ser un número."
+		"de"		"Das Level muss eine Zahl sein."
+		"pt"		"O nível precisa ser um número."
+		"chi"		"等级必须是数字。"
+	}
+	"Setting Levels Not Supported"
+	{
+		"en"		"Setting levels on the current map is not supported."
+		"fr"		"La modification des niveaux n'est pas prise en charge sur la map actuelle."
+		"ru"		"Изменение уровней на текущей карте не поддерживается."
+		"es"		"No se pueden establecer niveles en el mapa actual."
+		"de"		"Das Setzen von Levels wird auf der aktuellen Map nicht unterstützt."
+		"pt"		"Definir níveis no mapa atual não é suportado."
+		"chi"		"当前地图不支持设置等级。"
+	}
+	"Level Not Found"
+	{
+		"#format"	"{1:s}"
+		"en"		"Level {olive}{1} {default}could not be found."
+		"fr"		"Le niveau {olive}{1} {default}est introuvable."
+		"ru"		"Уровень {olive}{1} {default}не найден."
+		"es"		"No se encontró el nivel {olive}{1}{default}."
+		"de"		"Level {olive}{1} {default}wurde nicht gefunden."
+		"pt"		"O nível {olive}{1} {default}não foi encontrado."
+		"chi"		"未找到等级 {olive}{1}{default}。"
+	}
+	"Reset Level Failed"
+	{
+		"#format"	"{1:L}"
+		"en"		"Failed resetting level on {1}."
+		"fr"		"Échec de la réinitialisation du niveau de {1}."
+		"ru"		"Не удалось сбросить уровень у {1}."
+		"es"		"No se pudo reiniciar el nivel de {1}."
+		"de"		"Das Level von {1} konnte nicht zurückgesetzt werden."
+		"pt"		"Falha ao redefinir o nível de {1}."
+		"chi"		"重置 {1} 的等级失败。"
+	}
+	"Set Level Failed"
+	{
+		"#format"	"{1:s},{2:N}"
+		"en"		"Failed setting level to {olive}{1} {default}on {olive}{2}."
+		"fr"		"Échec de l'attribution du niveau {olive}{1} {default}à {olive}{2}."
+		"ru"		"Не удалось установить уровень {olive}{1} {default}игроку {olive}{2}."
+		"es"		"No se pudo establecer el nivel {olive}{1} {default}a {olive}{2}."
+		"de"		"Level {olive}{1} {default}konnte für {olive}{2} {default}nicht gesetzt werden."
+		"pt"		"Falha ao definir o nível {olive}{1} {default}para {olive}{2}."
+		"chi"		"无法将 {olive}{2} {default}的等级设置为 {olive}{1}{default}。"
+	}
+	"Level Set From"
+	{
+		"#format"	"{1:s},{2:s},{3:s}"
+		"en"		"{default}Set {olive}{1} {default}from {2} to {olive}{3}"
+		"fr"		"{default}a changé le niveau de {olive}{1} {default}de {2} à {olive}{3}"
+		"ru"		"{default}изменил уровень {olive}{1} {default}с {2} на {olive}{3}"
+		"es"		"{default}cambió el nivel de {olive}{1} {default}de {2} a {olive}{3}"
+		"de"		"{default}hat das Level von {olive}{1} {default}von {2} auf {olive}{3} {default}gesetzt"
+		"pt"		"{default}mudou o nível de {olive}{1} {default}de {2} para {olive}{3}"
+		"chi"		"{default}将 {olive}{1} {default}的等级从 {2} 设置为 {olive}{3}"
+	}
+	"Level Set"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"{default}Set {olive}{1} {default}to {olive}{2}"
+		"fr"		"{default}a défini le niveau de {olive}{1} {default}à {olive}{2}"
+		"ru"		"{default}установил уровень {olive}{1} {default}на {olive}{2}"
+		"es"		"{default}estableció el nivel de {olive}{1} {default}a {olive}{2}"
+		"de"		"{default}hat das Level von {olive}{1} {default}auf {olive}{2} {default}gesetzt"
+		"pt"		"{default}definiu o nível de {olive}{1} {default}para {olive}{2}"
+		"chi"		"{default}将 {olive}{1} {default}的等级设置为 {olive}{2}"
+	}
+}
