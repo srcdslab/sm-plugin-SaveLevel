@@ -10,6 +10,12 @@
 		"de"		"{olive}{1} {default}wurde wiederhergestellt auf: {olive}{2}"
 		"pt"		"{olive}{1} {default}foi restaurado para: {olive}{2}"
 		"chi"		"{olive}{1} {default}已恢复至：{olive}{2}"
+		"pl"		"{olive}{1} {default}został przywrócony do: {olive}{2}"
+		"tr"		"{olive}{1} {default}şuna geri yüklendi: {olive}{2}"
+		"it"		"{olive}{1} {default}è stato ripristinato a: {olive}{2}"
+		"ua"		"{olive}{1} {default}відновлено до: {olive}{2}"
+		"zho"		"{olive}{1} {default}已恢復至：{olive}{2}"
+		"cze"		"{olive}{1} {default}byl obnoven na: {olive}{2}"
 	}
 	"Config Reloaded"
 	{
@@ -20,6 +26,12 @@
 		"de"		"Die Konfigurationsdatei der Map wurde neu geladen."
 		"pt"		"O arquivo de configuração do mapa foi recarregado."
 		"chi"		"地图配置文件已重新加载。"
+		"pl"		"Plik konfiguracyjny mapy został przeładowany."
+		"tr"		"Harita yapılandırma dosyası yeniden yüklendi."
+		"it"		"Il file di configurazione della mappa è stato ricaricato."
+		"ua"		"Файл конфігурації мапи перезавантажено."
+		"zho"		"地圖設定檔已重新載入。"
+		"cze"		"Konfigurační soubor mapy byl znovu načten."
 	}
 	"Config Reload Failed"
 	{
@@ -30,6 +42,12 @@
 		"de"		"Neuladen fehlgeschlagen: keine gültige Konfiguration für die aktuelle Map (siehe Server-Logs). Die aktive Konfiguration bleibt unverändert."
 		"pt"		"Falha ao recarregar: nenhuma configuração válida para o mapa atual (veja os logs do servidor). A configuração ativa não foi alterada."
 		"chi"		"重新加载失败：当前地图没有有效的配置（请查看服务器日志）。当前配置保持不变。"
+		"pl"		"Przeładowanie nie powiodło się: nie znaleziono prawidłowej konfiguracji dla bieżącej mapy (sprawdź logi serwera). Aktywna konfiguracja pozostaje bez zmian."
+		"tr"		"Yeniden yükleme başarısız: geçerli harita için geçerli bir yapılandırma bulunamadı (sunucu günlüklerine bakın). Etkin yapılandırma değiştirilmedi."
+		"it"		"Ricaricamento non riuscito: nessuna configurazione valida trovata per la mappa attuale (controlla i log del server). La configurazione attiva non è stata modificata."
+		"ua"		"Помилка перезавантаження: для поточної мапи не знайдено дійсної конфігурації (перегляньте логи сервера). Активна конфігурація не змінена."
+		"zho"		"重新載入失敗：找不到目前地圖的有效設定檔（請查看伺服器日誌）。目前使用的設定未變更。"
+		"cze"		"Opětovné načtení selhalo: pro aktuální mapu nebyla nalezena platná konfigurace (zkontrolujte logy serveru). Aktivní konfigurace zůstává beze změny."
 	}
 	"Map Not Supported"
 	{
@@ -40,6 +58,12 @@
 		"de"		"Die aktuelle Map wird nicht unterstützt."
 		"pt"		"O mapa atual não é suportado."
 		"chi"		"当前地图不受支持。"
+		"pl"		"Bieżąca mapa nie jest obsługiwana."
+		"tr"		"Mevcut harita desteklenmiyor."
+		"it"		"La mappa attuale non è supportata."
+		"ua"		"Поточна мапа не підтримується."
+		"zho"		"目前的地圖不受支援。"
+		"cze"		"Aktuální mapa není podporována."
 	}
 	"Level Usage"
 	{
@@ -50,6 +74,12 @@
 		"de"		"Verwendung: sm_level <target> <level>"
 		"pt"		"Uso: sm_level <target> <level>"
 		"chi"		"用法：sm_level <target> <level>"
+		"pl"		"Użycie: sm_level <target> <level>"
+		"tr"		"Kullanım: sm_level <target> <level>"
+		"it"		"Uso: sm_level <target> <level>"
+		"ua"		"Використання: sm_level <target> <level>"
+		"zho"		"用法：sm_level <target> <level>"
+		"cze"		"Použití: sm_level <target> <level>"
 	}
 	"Level Not A Number"
 	{
@@ -60,6 +90,12 @@
 		"de"		"Das Level muss eine Zahl sein."
 		"pt"		"O nível precisa ser um número."
 		"chi"		"等级必须是数字。"
+		"pl"		"Poziom musi być liczbą."
+		"tr"		"Seviye bir sayı olmalıdır."
+		"it"		"Il livello deve essere un numero."
+		"ua"		"Рівень має бути числом."
+		"zho"		"等級必須是數字。"
+		"cze"		"Úroveň musí být číslo."
 	}
 	"Setting Levels Not Supported"
 	{
@@ -70,6 +106,12 @@
 		"de"		"Das Setzen von Levels wird auf der aktuellen Map nicht unterstützt."
 		"pt"		"Definir níveis no mapa atual não é suportado."
 		"chi"		"当前地图不支持设置等级。"
+		"pl"		"Ustawianie poziomów na bieżącej mapie nie jest obsługiwane."
+		"tr"		"Mevcut haritada seviye ayarlama desteklenmiyor."
+		"it"		"L'impostazione dei livelli sulla mappa attuale non è supportata."
+		"ua"		"Встановлення рівнів на поточній мапі не підтримується."
+		"zho"		"目前的地圖不支援設定等級。"
+		"cze"		"Nastavování úrovní na aktuální mapě není podporováno."
 	}
 	"Level Not Found"
 	{
@@ -81,6 +123,12 @@
 		"de"		"Level {olive}{1} {default}wurde nicht gefunden."
 		"pt"		"O nível {olive}{1} {default}não foi encontrado."
 		"chi"		"未找到等级 {olive}{1}{default}。"
+		"pl"		"Nie znaleziono poziomu {olive}{1}{default}."
+		"tr"		"Seviye {olive}{1} {default}bulunamadı."
+		"it"		"Impossibile trovare il livello {olive}{1}{default}."
+		"ua"		"Рівень {olive}{1} {default}не знайдено."
+		"zho"		"找不到等級 {olive}{1}{default}。"
+		"cze"		"Úroveň {olive}{1} {default}nebyla nalezena."
 	}
 	"Reset Level Failed"
 	{
@@ -92,6 +140,12 @@
 		"de"		"Das Level von {1} konnte nicht zurückgesetzt werden."
 		"pt"		"Falha ao redefinir o nível de {1}."
 		"chi"		"重置 {1} 的等级失败。"
+		"pl"		"Nie udało się zresetować poziomu gracza {1}."
+		"tr"		"{1} için seviye sıfırlanamadı."
+		"it"		"Reset del livello non riuscito per {1}."
+		"ua"		"Не вдалося скинути рівень для {1}."
+		"zho"		"無法重設 {1} 的等級。"
+		"cze"		"Resetování úrovně hráče {1} selhalo."
 	}
 	"Set Level Failed"
 	{
@@ -103,6 +157,12 @@
 		"de"		"Level {olive}{1} {default}konnte für {olive}{2} {default}nicht gesetzt werden."
 		"pt"		"Falha ao definir o nível {olive}{1} {default}para {olive}{2}."
 		"chi"		"无法将 {olive}{2} {default}的等级设置为 {olive}{1}{default}。"
+		"pl"		"Nie udało się ustawić poziomu {olive}{1} {default}graczowi {olive}{2}."
+		"tr"		"{olive}{2} {default}için seviye {olive}{1} {default}olarak ayarlanamadı."
+		"it"		"Impossibile impostare il livello {olive}{1} {default}a {olive}{2}."
+		"ua"		"Не вдалося встановити рівень {olive}{1} {default}для {olive}{2}."
+		"zho"		"無法將 {olive}{2} {default}的等級設定為 {olive}{1}。"
+		"cze"		"Nepodařilo se nastavit úroveň {olive}{1} {default}hráči {olive}{2}."
 	}
 	"Level Set From"
 	{
@@ -114,6 +174,12 @@
 		"de"		"{default}hat das Level von {olive}{1} {default}von {2} auf {olive}{3} {default}gesetzt"
 		"pt"		"{default}mudou o nível de {olive}{1} {default}de {2} para {olive}{3}"
 		"chi"		"{default}将 {olive}{1} {default}的等级从 {2} 设置为 {olive}{3}"
+		"pl"		"{default}Ustawiono {olive}{1} {default}z {2} na {olive}{3}"
+		"tr"		"{default}{olive}{1} {default}değeri {2} değerinden {olive}{3} {default}değerine ayarlandı"
+		"it"		"{default}Impostato {olive}{1} {default}da {2} a {olive}{3}"
+		"ua"		"{default}Встановлено {olive}{1} {default}з {2} на {olive}{3}"
+		"zho"		"{default}已將 {olive}{1} {default}從 {2} 設定為 {olive}{3}"
+		"cze"		"{default}Nastaveno {olive}{1} {default}z {2} na {olive}{3}"
 	}
 	"Level Set"
 	{
@@ -125,5 +191,11 @@
 		"de"		"{default}hat das Level von {olive}{1} {default}auf {olive}{2} {default}gesetzt"
 		"pt"		"{default}definiu o nível de {olive}{1} {default}para {olive}{2}"
 		"chi"		"{default}将 {olive}{1} {default}的等级设置为 {olive}{2}"
+		"pl"		"{default}Ustawiono {olive}{1} {default}na {olive}{2}"
+		"tr"		"{default}{olive}{1} {default}değeri {olive}{2} {default}olarak ayarlandı"
+		"it"		"{default}Impostato {olive}{1} {default}a {olive}{2}"
+		"ua"		"{default}Встановлено {olive}{1} {default}на {olive}{2}"
+		"zho"		"{default}已將 {olive}{1} {default}設定為 {olive}{2}"
+		"cze"		"{default}Nastaveno {olive}{1} {default}na {olive}{2}"
 	}
 }
